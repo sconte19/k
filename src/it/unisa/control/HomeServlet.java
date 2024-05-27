@@ -1,8 +1,10 @@
 package it.unisa.control;
 
+import java.awt.List;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,7 +29,19 @@ public class HomeServlet extends HttpServlet {
 		ProdottoDao dao = new ProdottoDao();
 		
 		ArrayList<ArrayList<ProdottoBean>> categorie = new ArrayList<>();
+		
 		String redirectedPage = request.getParameter("page");
+		
+		//input validation
+		//whitelist pagine permesse, altrimenti vai home
+		ArrayList<String> whitelist = new ArrayList<>();
+		whitelist = (ArrayList<String>) Arrays.asList("Account.jsp", "Carrello.jsp", "Catalogo.jsp", "Checkout.jsp", "ComposizioneOrdine.jsp", "Dettagli.jsp", "Home.jsp", "Login.jsp", "MieiOrdini.jsp", "Ps4.jsp", "Ps5.jsp", "Registrazione.jsp", "Switch.jsp", "XboxOne.jsp", "XboxSeries.jsp");
+		if (whitelist.contains(redirectedPage)) 
+		{
+			redirectedPage = "Home.jsp";
+		}
+		
+		
 		
 		try {
 			ArrayList<ProdottoBean> PS5 = dao.doRetrieveByPiattaforma("PlayStation 5");
